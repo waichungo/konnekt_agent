@@ -5,7 +5,7 @@ import { initModem, listPorts } from "./modem.js";
 var modem: SerialPort | null = null
 async function setUpModem() {
     let ports = await listPorts()
-    let port = ports.find((el) => el.serialNumber?.trim() == "6&1C0D8132&1&0002");
+    let port = ports.find((el) => (el.serialNumber?.trim().includes("6&1C0D8132&") && el.serialNumber?.trim().includes("&0002")));
     // let port = ports.find((el) => el.serialNumber === "6&1C0D8132&1&0000");
     if (port) {
         modem = await initModem(port.path, {
@@ -55,7 +55,7 @@ async function start() {
         }
         await browser.close();
     }
-    if(modem){
+    if (modem) {
         modem.close()
     }
 
